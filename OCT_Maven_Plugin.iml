@@ -9,6 +9,26 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/src/jars" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+        <jarDirectory url="file://$MODULE_DIR$/src/jars" recursive="false" />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/src/jars" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+        <jarDirectory url="file://$MODULE_DIR$/src/jars" recursive="false" />
+      </library>
+    </orderEntry>
     <orderEntry type="library" name="Maven: net.imagej:imagej:2.0.0-rc-56" level="project" />
     <orderEntry type="library" name="Maven: net.imagej:imagej-common:0.24.2" level="project" />
     <orderEntry type="library" name="Maven: net.imglib2:imglib2:3.2.1" level="project" />
@@ -147,15 +167,5 @@
     <orderEntry type="library" name="Maven: net.imagej:ij:1.51g" level="project" />
     <orderEntry type="library" name="Maven: net.imagej:ij1-patcher:0.12.5" level="project" />
     <orderEntry type="library" name="Maven: org.javassist:javassist:3.20.0-GA" level="project" />
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/src/jars" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-        <jarDirectory url="file://$MODULE_DIR$/src/jars" recursive="false" />
-      </library>
-    </orderEntry>
   </component>
 </module>
