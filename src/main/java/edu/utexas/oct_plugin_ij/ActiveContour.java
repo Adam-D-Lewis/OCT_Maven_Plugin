@@ -3,31 +3,17 @@ package edu.utexas.oct_plugin_ij;
 import ij.IJ;
 import ij.ImagePlus;
 import ij.gui.GenericDialog;
-import ij.gui.Plot;
-import ij.gui.PlotWindow;
 import ij.plugin.PlugIn;
 import ij.process.FloatProcessor;
 import ij.process.ImageProcessor;
 
-import java.awt.Canvas;
-import java.awt.Color;
-import java.awt.Point;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.util.ArrayList;
-import javax.swing.event.MouseInputListener;
-
-
-
-
-
-
-import java.awt.Shape;
-import java.awt.BasicStroke;
 import java.awt.geom.Path2D;
-import java.awt.geom.Path2D.Float;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 public class ActiveContour implements PlugIn, MouseListener, MouseMotionListener{
 

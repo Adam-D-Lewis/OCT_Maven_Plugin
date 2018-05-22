@@ -1,9 +1,9 @@
 package edu.utexas.oct_plugin_ij;
 
+import edu.utexas.math.P2;
+
 import java.util.HashMap;
 import java.util.List;
-
-import edu.utexas.math.P2;
 
 public class StentResults {
 	HashMap<Integer, P2> _Stent;

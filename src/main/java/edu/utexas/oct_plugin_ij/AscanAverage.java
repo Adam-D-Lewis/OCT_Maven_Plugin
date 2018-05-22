@@ -1,14 +1,15 @@
 package edu.utexas.oct_plugin_ij;
+
 import ij.ImagePlus;
 import ij.gui.Line;
 import ij.gui.Overlay;
 import ij.gui.Plot;
 import ij.gui.PlotWindow;
+
+import javax.swing.event.MouseInputListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Line2D;
-
-import javax.swing.event.MouseInputListener;
 
 /**
  * Class that displays 2 sliders on an ImagePlus window and displays the average<br>

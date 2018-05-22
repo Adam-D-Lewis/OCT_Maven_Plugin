@@ -1,15 +1,14 @@
 package edu.utexas.oct_plugin_ij;
 
-import java.io.InputStream;
-import java.nio.ByteBuffer;
-
 import com.jogamp.opencl.CLBuffer;
 import com.jogamp.opencl.CLKernel;
 import com.jogamp.opencl.CLMemory.Map;
 import com.jogamp.opencl.CLMemory.Mem;
-
-import edu.utexas.opencl.UTOpenCLProgram;
 import edu.utexas.opencl.UTOpenCL;
+import edu.utexas.opencl.UTOpenCLProgram;
+
+import java.io.InputStream;
+import java.nio.ByteBuffer;
 
 /**
  * OpenCL functions to transform Volumes of data.

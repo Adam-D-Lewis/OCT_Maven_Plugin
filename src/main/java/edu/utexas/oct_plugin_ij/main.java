@@ -1,5 +1,4 @@
 package edu.utexas.oct_plugin_ij;
-import java.io.IOException;
 
 import ij.ImageJ;
 

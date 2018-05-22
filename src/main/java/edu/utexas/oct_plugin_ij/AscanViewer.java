@@ -4,13 +4,11 @@ import ij.ImagePlus;
 import ij.gui.Plot;
 import ij.gui.PlotWindow;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
+import javax.swing.event.MouseInputListener;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Line2D;
-
-import javax.swing.event.MouseInputListener;
 
 
 public class AscanViewer implements MouseMotionListener, MouseInputListener{

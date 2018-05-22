@@ -74,8 +74,12 @@ public class ComputeBScan implements Runnable{
 
 	private int currentBScan;
 
+	private int interleaveNum;
+
+	private int pointsPerInterleavedAScan;
+
 	public ComputeBScan(RandomAccessFile Raf, int PointsPerAScan, int AScansPerBScan, int BytesPerSample, int CurrentBScan,
-			float Gain, float Bias, Float[] Window, FloatFFT_1D FFT){
+			float Gain, float Bias, Float[] Window, FloatFFT_1D FFT, int InterleaveNum){
 		this.raf = Raf;
 		gain = Gain;
 		bias = Bias;
@@ -85,6 +89,9 @@ public class ComputeBScan implements Runnable{
 		bytesPerSample = BytesPerSample;
 		aScansPerBScan = AScansPerBScan;
 		currentBScan = CurrentBScan;
+		interleaveNum = InterleaveNum;
+		interleaveNum = InterleaveNum;
+		pointsPerInterleavedAScan = pointsPerAScan/interleaveNum;
 	}
 	
 	public Integer get(){
@@ -105,45 +112,57 @@ public class ComputeBScan implements Runnable{
 
 	public void run(){	
 		try{
-			int PreSize = pointsPerAScan*aScansPerBScan;
-			byte[] rawBScan = new byte[PreSize*bytesPerSample];
+			int PreSize = pointsPerInterleavedAScan; //whole B-scan of data
+			int PostSize = pointsPerInterleavedAScan/2*aScansPerBScan;
+			byte[] rawBScan = new byte[pointsPerAScan*aScansPerBScan*bytesPerSample];
 			preFFTbuffer = new float[PreSize];
-			postFFTbuffer = new double[PreSize/2];
-			output = new float[PreSize/2];
+			postFFTbuffer = new double[PostSize];
+			output = new float[PostSize];
 			
 			try {
-				raf.seek((long)PreSize*(long)currentBScan*bytesPerSample);
+				raf.seek((long)pointsPerAScan*aScansPerBScan*currentBScan*bytesPerSample);
 				raf.read(rawBScan);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+
+			//k is the aScanNumber (in that B-scan)
 			for(int k = 0; k < aScansPerBScan; k++){
 				byte[] ascan = Arrays.copyOfRange(rawBScan, k*(pointsPerAScan*bytesPerSample), (k + 1)*pointsPerAScan*bytesPerSample);
-				
+
+				float sum = 0;
+				int index = -1;
 				for(long i = 0; i < pointsPerAScan; i++){
-					float temp = (((int)ascan[(int)(bytesPerSample*i)] & 0xFF) << 8) + (((int)ascan[(int)(bytesPerSample*i + 1)] & 0xFF)); 
+					float temp = (((int)ascan[(int)(bytesPerSample*i)] & 0xFF) << 8) + (((int)ascan[(int)(bytesPerSample*i + 1)] & 0xFF));
 					temp = (temp*gain - bias)*window[(int)i];
-					preFFTbuffer[(int)i] = temp;
+
+					sum = sum + temp;
+					if ((i + 1) % interleaveNum == 0) {
+						index += 1;
+						float ans = sum / interleaveNum;
+						preFFTbuffer[index] = ans; //ADL
+						sum = 0;
+					}
 				}
 				
 				fft.realForward(preFFTbuffer);
-				
-				int globalIndex = k*(pointsPerAScan/2);
-				for(int j = 0; j < pointsPerAScan/2; j++){
-					postFFTbuffer[j] = (preFFTbuffer[2*j]*preFFTbuffer[2*j] + preFFTbuffer[2*j + 1]*preFFTbuffer[2*j + 1]);
-					
-					if(real != null && imag != null){
-						real[(int)(globalIndex + j)] = preFFTbuffer[2*j];
-						imag[(int)(globalIndex + j)] = preFFTbuffer[2*j + 1];
+
+				int globalIndex = k * (pointsPerInterleavedAScan / 2);
+				for (int j = 0; j < pointsPerInterleavedAScan / 2; j++) { //I'm convinced this is correct, j is the index within the A-scan
+					postFFTbuffer[j] = (preFFTbuffer[2 * j] * preFFTbuffer[2 * j] + preFFTbuffer[2 * j + 1] * preFFTbuffer[2 * j + 1]); //get the magnitude from the complex number
+
+					if (real != null && imag != null) {
+						real[(int) (globalIndex + j)] = preFFTbuffer[2 * j];
+						imag[(int) (globalIndex + j)] = preFFTbuffer[2 * j + 1];
 					}
-					
-					postFFTbuffer[j] = 20*Math.log10(Math.sqrt(postFFTbuffer[j]));
-					output[(int)(globalIndex + j)] = (float)postFFTbuffer[j];
+
+					postFFTbuffer[j] = 20 * Math.log10(Math.sqrt(postFFTbuffer[j]));
+					output[(int) (globalIndex + j)] = (float) postFFTbuffer[j];
 				}	
 			}
 		}catch(Exception e){
+			e.printStackTrace();
 			System.out.println(e);
 		}
 			

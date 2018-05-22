@@ -78,7 +78,6 @@ public class UTOCT {
 		int startTrim = 0;
 		int stopTrim = 0;
 		
-		
 		File f = new File(pathToParameters);
 		
 		List<String> lines = Files.readAllLines(f.toPath());
@@ -249,7 +248,7 @@ public class UTOCT {
 		
 		window.add(HanningWindow(pointsPerAScan));
 		
-		int numberOfProcessors = Runtime.getRuntime().availableProcessors();
+		int numberOfProcessors = Runtime.getRuntime().availableProcessors(); //ADL
 		pool = new ForkJoinPool(numberOfProcessors);
 	}
 	
@@ -276,29 +275,30 @@ public class UTOCT {
 	/**
 	 * Creates an ImageStack with B-Scans wrapped in a FloatProcessor
 	 * 
-	 * @param ScaleFactor to rescale the output size
+	 * @param //ScaleFactor to rescale the output size
 	 * @return ImageStack that contains each B-Scan wrapped in a FloatProcessor
 	 * @throws IOException
 	 * @see ImageStack
 	 */
-	public ImageStack processVolume(boolean exportRealImag) throws IOException{		
-		ImageStack is = new ImageStack(pointsPerAScan/2, aScansPerBScan);
-		
+	public ImageStack processVolume(boolean exportRealImag, int interleaveNum) throws IOException{
+		int pointsPerInterleavedAScan = pointsPerAScan/interleaveNum;
+		ImageStack is = new ImageStack(pointsPerInterleavedAScan/2, aScansPerBScan);
+
 		FFTResults = null;
 		
 		if(exportRealImag){
-			FFTResults = new ImageStack(pointsPerAScan/2, aScansPerBScan);
+			FFTResults = new ImageStack(pointsPerInterleavedAScan/2, aScansPerBScan);
 		}
 		
 		ArrayList<ComputeBScan> cbsList = new ArrayList<ComputeBScan>();
 		
-		ExecutorService es = Executors.newFixedThreadPool(8);
+		ExecutorService es = Executors.newFixedThreadPool(8); //ADL
 		
 		for(int i = 0; i < numberOfBScans; i++){
 			for(int j = 0; j < window.size(); j++){
 				Float[] currentWindow = window.get(j);			
 				
-				ComputeBScan cbs = new ComputeBScan(raf, pointsPerAScan, aScansPerBScan, bytesPerSample, i, gain, bias, currentWindow, new FloatFFT_1D(pointsPerAScan));
+				ComputeBScan cbs = new ComputeBScan(raf, pointsPerAScan, aScansPerBScan, bytesPerSample, i, gain, bias, currentWindow, new FloatFFT_1D(pointsPerInterleavedAScan), interleaveNum);
 				cbsList.add(cbs);
 				es.submit(cbs);
 			}
@@ -313,11 +313,11 @@ public class UTOCT {
 		}
 		
 		for(ComputeBScan cbs : cbsList){
-			ImageProcessor ip = new FloatProcessor(pointsPerAScan/2, aScansPerBScan, cbs.getBScan());
+			ImageProcessor ip = new FloatProcessor(pointsPerInterleavedAScan/2, aScansPerBScan, cbs.getBScan());
 			
 			if(exportRealImag){
-				FFTResults.addSlice(new FloatProcessor(pointsPerAScan/2, aScansPerBScan, cbs.getReal()));
-				FFTResults.addSlice(new FloatProcessor(pointsPerAScan/2, aScansPerBScan, cbs.getImag()));
+				FFTResults.addSlice(new FloatProcessor(pointsPerInterleavedAScan/2, aScansPerBScan, cbs.getReal()));
+				FFTResults.addSlice(new FloatProcessor(pointsPerInterleavedAScan/2, aScansPerBScan, cbs.getImag()));
 			}
 			
 			is.addSlice(ip);		

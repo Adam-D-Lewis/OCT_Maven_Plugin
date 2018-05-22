@@ -1,4 +1,6 @@
 package edu.utexas.oct_plugin_ij;
+
+import edu.utexas.math.Math1D;
 import ij.IJ;
 import ij.ImagePlus;
 import ij.gui.Line;
@@ -6,10 +8,9 @@ import ij.gui.Overlay;
 import ij.gui.Plot;
 import ij.process.FloatProcessor;
 import ij.process.ImageProcessor;
-import ij.process.ShortProcessor;
-import ij.process.StackProcessor;
 
-import java.awt.Point;
+import javax.swing.event.MouseInputListener;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -17,10 +18,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
-
-import javax.swing.event.MouseInputListener;
-
-import edu.utexas.math.Math1D;
 
 /**
  * Class that displays 2 sliders on an ImagePlus window and computes the En Face <br>

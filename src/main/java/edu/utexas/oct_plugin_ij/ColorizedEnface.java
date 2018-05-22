@@ -1,10 +1,5 @@
 package edu.utexas.oct_plugin_ij;
 
-import java.awt.Color;
-import java.util.ArrayList;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 import ij.IJ;
 import ij.ImagePlus;
 import ij.ImageStack;
@@ -13,8 +8,12 @@ import ij.plugin.ContrastEnhancer;
 import ij.process.ByteProcessor;
 import ij.process.ColorProcessor;
 import ij.process.FloatProcessor;
-import ij.process.ImageProcessor;
 import ij.process.ShortProcessor;
+
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class ColorizedEnface {
 	private ImagePlus Volume;
@@ -119,7 +118,7 @@ public class ColorizedEnface {
 				}
 				
 				if(colorByDepth){
-					ByteProcessor b = t.getFloatProcessor().convertToByteProcessor();	
+					ByteProcessor b = t.getFloatProcessor().convertToByteProcessor();
 					//ce.equalize(b);
 					ColorProcessor rgb = b.convertToColorProcessor();
 					if(ColorMapStart <= i && i < ColorMapEnd){

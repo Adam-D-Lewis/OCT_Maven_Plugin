@@ -1,15 +1,14 @@
 package edu.utexas.oct_plugin_ij;
 
-import java.awt.Point;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
-import javax.swing.event.MouseInputListener;
-
 import ij.IJ;
 import ij.ImagePlus;
 import ij.gui.Roi;
 import ij.plugin.PlugIn;
+
+import javax.swing.event.MouseInputListener;
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 /***
  * Crops an Image or Image Stack based a single mouse click. The image is cropped such that all pixels
@@ -19,7 +18,7 @@ import ij.plugin.PlugIn;
  * @version 0.1
  *
  */
-public class QuickCropPlugin implements MouseInputListener, PlugIn{
+public class QuickCropPlugin implements MouseInputListener, PlugIn {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {

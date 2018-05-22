@@ -229,8 +229,8 @@ public class OCT_Plugin_Main implements Command, MouseListener, MouseMotionListe
                 List<ImagePlus> ipList = null;
 
                 gd = new GenericDialog("UT OCT Options");
-                gd.addCheckbox("Scale Intensity (0 to 256)", true);
-                gd.addCheckbox("Reduce Volume by 50%", true);
+                gd.addCheckbox("Scale Intensity (0 to 256)", false);
+                gd.addCheckbox("Reduce Volume by 50%", false);
                 gd.addCheckbox("Export FFT R & I? (Warning: Memory Intensive!)", false);
                 gd.addNumericField("Interleaving Factor (1=no interleaving)", 1, 1);
                 gd.showDialog();
@@ -586,7 +586,7 @@ public class OCT_Plugin_Main implements Command, MouseListener, MouseMotionListe
             newPlot.show();
         }
 
-        ImageStack is = u.processVolume(false);
+        ImageStack is = u.processVolume(false, 1);
 
         ImagePlus hyperstack = new ImagePlus("Split Spectrum", is);
         hyperstack.setDimensions((int)numberOfSpectrum, u.getNumberOfBScans(), 1);
@@ -618,7 +618,7 @@ public class OCT_Plugin_Main implements Command, MouseListener, MouseMotionListe
         try {
             for(int i = 0; i < filename.size(); i++) {
                 utoct.open(filename.get(i));
-                is.add(utoct.processVolume(ExportFFT));
+                is.add(utoct.processVolume(ExportFFT, interleaveNum));
 
                 if(ExportFFT){
                     ImagePlus f = new ImagePlus("FFT Results", utoct.getFFTResults());

@@ -1,19 +1,18 @@
 package edu.utexas.oct_plugin_ij;
 
+import com.jogamp.opencl.CLBuffer;
+import com.jogamp.opencl.CLKernel;
+import com.jogamp.opencl.CLMemory.Mem;
+import edu.utexas.opencl.UTOpenCL;
+import edu.utexas.opencl.UTOpenCLProgram;
+import edu.utexas.primitives.Tuples.Triplet;
+
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.util.List;
-
-import com.jogamp.opencl.CLBuffer;
-import com.jogamp.opencl.CLKernel;
-import com.jogamp.opencl.CLMemory.Mem;
-
-import edu.utexas.opencl.UTOpenCLProgram;
-import edu.utexas.primitives.Tuples.Triplet;
-import edu.utexas.opencl.UTOpenCL;
 
 public class CLProgramMerge extends UTOpenCLProgram implements WindowListener{
 	
@@ -55,7 +54,7 @@ public class CLProgramMerge extends UTOpenCLProgram implements WindowListener{
 	 * @param trans - Translation, in Pixels of the allocated and filled arrays 
 	 * @return True if merge completed, false otherwise
 	 */
-	public boolean merge(List<CLBuffer<ByteBuffer>> toMerge, 
+	public boolean merge(List<CLBuffer<ByteBuffer>> toMerge,
 						List<Triplet<Integer, Integer, Integer>> dims, 
 						List<Triplet<Integer, Integer, Integer>> trans){
 		

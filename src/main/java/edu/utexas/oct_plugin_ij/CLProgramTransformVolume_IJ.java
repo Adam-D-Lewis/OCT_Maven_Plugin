@@ -1,34 +1,19 @@
 package edu.utexas.oct_plugin_ij;
 
+import com.jogamp.opencl.CLBuffer;
+import edu.utexas.opencl.UTOpenCL;
+import edu.utexas.primitives.Tuples.*;
 import ij.ImagePlus;
 import ij.ImageStack;
 import ij.process.ByteProcessor;
 import ij.process.ImageProcessor;
 
-import java.nio.ByteBuffer;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-
-import com.jogamp.opencl.CLBuffer;
-
-import edu.utexas.opencl.UTOpenCL;
-import edu.utexas.primitives.Tuples.*;
-
-import java.awt.GridLayout;
-
-import javax.swing.JTextField;
-import javax.swing.JLabel;
-import javax.swing.JButton;
-
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.awt.*;
+import java.awt.event.*;
 import java.io.InputStream;
-import java.awt.event.ActionEvent;
+import java.nio.ByteBuffer;
 
 public class CLProgramTransformVolume_IJ extends JFrame implements KeyListener, WindowListener, ActionListener{
 
@@ -368,7 +353,7 @@ public class CLProgramTransformVolume_IJ extends JFrame implements KeyListener, 
 			output.rewind();
 			output.position(processedBScan.length*i);
 			output.get(processedBScan);
-			ByteProcessor bp = new ByteProcessor(dim[0], dim[1], processedBScan);	
+			ByteProcessor bp = new ByteProcessor(dim[0], dim[1], processedBScan);
 			processedBScan = null;
 			is.addSlice(bp);
 		}
