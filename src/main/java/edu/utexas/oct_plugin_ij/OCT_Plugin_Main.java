@@ -35,7 +35,7 @@ import java.util.List;
  * @version 0.2.0
  */
 @Plugin(type = Command.class, menuPath = "Plugins>OCT Plugin")
-public class OCT_Plugin_Main implements Command, MouseListener, MouseMotionListener, KeyListener, WindowListener{
+public class OCT_Plugin_Main implements MouseListener, MouseMotionListener, KeyListener, WindowListener{
     /**
      * ImagePlus stack that will be used to display the OCT data
      */
@@ -72,28 +72,29 @@ public class OCT_Plugin_Main implements Command, MouseListener, MouseMotionListe
      */
     static protected UTOpenCL ocl = null;
 
-    /**
-     * This main function serves for development purposes.
-     * It allows you to run the plugin immediately out of
-     * your integrated development environment (IDE).
-     *
-     * @param args whatever, it's ignored
-     * @throws Exception
-     */
-    public static void main(final String... args) throws Exception {
-        // create the ImageJ application context with all available services
-        final ImageJ ij = new ImageJ();
-        ij.ui().showUI();
-        // invoke the plugin
-        ij.command().run(OCT_Plugin_Main.class, true);
-    }
+//    /**
+//     * This main function serves for development purposes.
+//     * It allows you to run the plugin immediately out of
+//     * your integrated development environment (IDE).
+//     *
+//     * @param args whatever, it's ignored
+//     * @throws Exception
+//     */
+//    public static void main(final String... args) throws Exception {
+//        // create the ImageJ application context with all available services
+//        final ImageJ ij = new ImageJ();
+//        ij.ui().showUI();
+//        // invoke the plugin
+//        ij.command().run(OCT_Plugin_Main.class, true);
+//    }
 
     /**
      * {@inheritDoc}
      */
-    @Override
-    public void run() {
-        Parser("UT_U16_OCT");
+//    @Override
+    public void run(String whichToOpen) {
+
+        Parser(whichToOpen);
     }
 
 
