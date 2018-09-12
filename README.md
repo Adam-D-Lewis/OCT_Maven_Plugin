@@ -18,7 +18,7 @@ FIJI:  https://imagej.net/Fiji/Downloads
 ## Authors
 
 * **Austin McElroy** - *Initial work*
-* **Adam Lewis** - *Modifications for the AMDC Lab's needs*
+* **Adam Lewis** - *Modified and expanded for the AMDC Lab's needs*
 
 ## License
 
